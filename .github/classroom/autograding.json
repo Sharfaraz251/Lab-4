@@ -1,0 +1,44 @@
+{
+  "tests": [
+	{
+      "name": "Check task 1",
+      "setup": "",
+      "run": "pwsh ./test-helpers/Compare1.ps1",
+      "input": "",
+	    "output": "True",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Check task 2",
+      "setup": "",
+      "run": "pwsh ./test-helpers/Compare2.ps1",
+      "input": "",
+	    "output": "True",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Check task 3",
+      "setup": "",
+      "run": "pwsh ./test-helpers/Compare3.ps1",
+      "input": "",
+	    "output": "True",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Check task 4",
+      "setup": "",
+      "run": "pwsh ./test-helpers/Compare4.ps1",
+      "input": "",
+	    "output": "True",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}

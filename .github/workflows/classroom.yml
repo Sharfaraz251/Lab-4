@@ -1,0 +1,53 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches:
+    - '*'
+
+env:
+  DBPASS: 'yourStrong(!)Password'
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        image: mhallden/tawk17-lab4:awlt19
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: ${{ env.DBPASS }}
+        ports:
+        - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S 127.0.0.1 -U sa -P \"${SA_PASSWORD}\" -Q \"SELECT 1\" -b -o /dev/null"
+          --health-interval 10s
+          --health-timeout 3s
+          --health-retries 5
+          --health-start-period 10s
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: check docker containers
+        id: get_docker
+        run: | 
+          echo "::set-output name=containerID::$(docker ps -a -q)"
+
+      - name: check sql server running
+        run: sqlcmd -S 127.0.0.1 -U SA -P 'yourStrong(!)Password' -Q "SELECT NAME FROM sys.sysdatabases"
+
+      - name: Checkout test helper files
+        uses: actions/checkout@v2
+        with:
+          repository: ToxicInteractive-TAWK17/labb4-helpers
+          path: './test-helpers'
+              
+      - name: checking queries
+        uses: education/autograding@v1
+        id: autograder
+
+    outputs:
+      grading-score: ${{ steps.autograder.outputs.Points }}
